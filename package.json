@@ -1,0 +1,22 @@
+{
+  "name": "paefax-language-backend",
+  "version": "1.0.0",
+  "description": "Backend for language quiz frontend, Paefax Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Paefax/paefax-language-backend.git"
+  },
+  "author": "Paefax",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Paefax/paefax-language-backend/issues"
+  },
+  "homepage": "https://github.com/Paefax/paefax-language-backend#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
