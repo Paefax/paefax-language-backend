@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: REST API with curl
       run: |
-        curl -X GET "https://example.com/api/v2/endpoint"
+        curl -X GET "https://localhost:3000/fruits"
 
   build:
     runs-on: ubuntu-latest
