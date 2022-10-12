@@ -40,7 +40,7 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-const getQuiz = (rows, currentCategory) => {
+const getQuestions = (rows) => {
   var currentQuestions = [];
   let placeInRowArray = 0;
   for (let i = 0; i < numberOfQuestions; i++) {
@@ -54,11 +54,7 @@ const getQuiz = (rows, currentCategory) => {
       ],
     });
   }
-
-  return {
-    category: currentCategory,
-    questions: currentQuestions,
-  };
+  return currentQuestions;
 };
 
 app.get("/fruit", (req, res) => {
@@ -69,9 +65,10 @@ app.get("/fruit", (req, res) => {
       res.status(400).json({ error: err.message });
       return;
     }
-    var quiz = getQuiz(rows, "fruit");
+    var currentQuestions = getQuestions(rows);
     res.json({
-      quiz,
+      category: "fruit",
+      questions: currentQuestions,
     });
   });
 });
