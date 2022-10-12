@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-var db = require("./database.js");
-const numberOfQuestions = 5;
+const fruit = require("./routes/fruit");
+app.use("/fruit", fruit);
 
 app.get("/", (req, res) => {
   res.json({
@@ -38,37 +38,4 @@ app.get("/", (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
-});
-
-const getQuestions = (rows) => {
-  var currentQuestions = [];
-  let placeInRowArray = 0;
-  for (let i = 0; i < numberOfQuestions; i++) {
-    currentQuestions.push({
-      id: i,
-      word: rows[placeInRowArray].english,
-      correctAnswer: rows[placeInRowArray++].swedish,
-      incorrectAnswers: [
-        rows[placeInRowArray++].swedish,
-        rows[placeInRowArray++].swedish,
-      ],
-    });
-  }
-  return currentQuestions;
-};
-
-app.get("/fruit", (req, res) => {
-  var sql = "select english,swedish from fruit order by random() limit ?;";
-  var params = [numberOfQuestions * 3];
-  db.all(sql, params, (err, rows) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    var currentQuestions = getQuestions(rows);
-    res.json({
-      category: "fruit",
-      questions: currentQuestions,
-    });
-  });
 });
