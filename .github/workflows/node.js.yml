@@ -7,8 +7,14 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  run-updater:
+    runs-on: ubuntu-latest
+    steps:
+    - name: REST API with curl
+      run: |
+        curl -X GET "https://example.com/api/v2/endpoint"
 
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,3 +30,5 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: node app.js
+    
+ 
