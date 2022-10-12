@@ -35,6 +35,8 @@ const fillDatabase = (db) => {
   db.run(insert, ["Lime", "Lime"]);
   db.run(insert, ["Cherry", "Körsbär"]);
   db.run(insert, ["Gooseberry", "Krusbär"]);
+  db.run(insert, ["Apple", "Äpple"]);
+
 };
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
