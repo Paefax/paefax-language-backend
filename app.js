@@ -6,36 +6,35 @@ const numberOfQuestions = 5;
 
 app.get("/", (req, res) => {
   res.json({
-    "category": "Fruit",
-    "questions": [
+    category: "Fruit",
+    questions: [
       {
-        "id": 0,
-        "word": "apple",
-        "correctAnswer": "äpple",
-        "incorrectAnswers": ["ananas", "kiwi"]
+        id: 0,
+        word: "apple",
+        correctAnswer: "äpple",
+        incorrectAnswers: ["ananas", "kiwi"],
       },
       {
-        "id": 1,
-        "word": "pear",
-        "correctAnswer": "päron",
-        "incorrectAnswers": ["äpple", "mango"]
+        id: 1,
+        word: "pear",
+        correctAnswer: "päron",
+        incorrectAnswers: ["äpple", "mango"],
       },
       {
-        "id": 2,
-        "word": "pineapple",
-        "correctAnswer": "ananas",
-        "incorrectAnswers": ["mango", "jordgubbe"]
+        id: 2,
+        word: "pineapple",
+        correctAnswer: "ananas",
+        incorrectAnswers: ["mango", "jordgubbe"],
       },
       {
-        "id": 3,
-        "word": "strawberry",
-        "correctAnswer": "jordgubbe",
-        "incorrectAnswers": ["björnbär", "hallon"]
-      }
-    ]
-  })
+        id: 3,
+        word: "strawberry",
+        correctAnswer: "jordgubbe",
+        incorrectAnswers: ["björnbär", "hallon"],
+      },
+    ],
+  });
 });
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
