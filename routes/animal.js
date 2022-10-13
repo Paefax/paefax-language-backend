@@ -7,7 +7,6 @@ const implementedLanguages = ["swedish"];
 
 router.get("/:language", (req, res) => {
   if (!implementedLanguages.includes(req.params.language)) {
-    console.log("not included");
     res.status(400).json({
       error: `${req.params.language} is not an implemented language. Implemented languages are ${implementedLanguages}`,
     });
