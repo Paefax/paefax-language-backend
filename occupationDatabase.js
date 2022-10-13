@@ -6,6 +6,7 @@ const fillDatabase = (db) => {
   let insert = "INSERT INTO occupation (english, swedish) VALUES (?,?)";
   db.run(insert, ["Lawyer", "Advokat"]);
   db.run(insert, ["Architect", "Arkitekt"]);
+  db.run(insert, ["Baker", "Bagare"]);
 };
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
