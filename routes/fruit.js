@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-let db = require("../database.js");
+let fruitDB = require("../fruitDatabase.js");
 const numberOfQuestions = 5;
 
 const getQuestions = (rows) => {
@@ -23,7 +23,7 @@ const getQuestions = (rows) => {
 router.get("/", (req, res) => {
   let sql = "select english,swedish from fruit order by random() limit ?;";
   let params = [numberOfQuestions * 3];
-  db.all(sql, params, (err, rows) => {
+  fruitDB.all(sql, params, (err, rows) => {
     if (err) {
       res.status(400).json({ error: err.message });
       return;

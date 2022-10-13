@@ -2,7 +2,11 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const fruit = require("./routes/fruit");
+const animal = require("./routes/animal");
+const occupation = require("./routes/occupation");
 app.use("/fruit", fruit);
+app.use("/animal", animal);
+app.use("/occupation", occupation);
 
 app.get("/", (req, res) => {
   res.json({

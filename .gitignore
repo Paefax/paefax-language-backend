@@ -29,3 +29,5 @@ coverage
 
 # Database file
 fruit.db
+animal.db
+occupation.db
