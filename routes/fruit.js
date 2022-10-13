@@ -1,39 +1,39 @@
 const express = require("express");
 const router = express.Router();
-var db = require("../database.js");
+let db = require("../database.js");
 const numberOfQuestions = 5;
 
 const getQuestions = (rows) => {
-    var currentQuestions = [];
-    let placeInRowArray = 0;
-    for (let i = 0; i < numberOfQuestions; i++) {
-      currentQuestions.push({
-        id: i,
-        word: rows[placeInRowArray].english,
-        correctAnswer: rows[placeInRowArray++].swedish,
-        incorrectAnswers: [
-          rows[placeInRowArray++].swedish,
-          rows[placeInRowArray++].swedish,
-        ],
-      });
+  let currentQuestions = [];
+  let placeInRowArray = 0;
+  for (let i = 0; i < numberOfQuestions; i++) {
+    currentQuestions.push({
+      id: i,
+      word: rows[placeInRowArray].english,
+      correctAnswer: rows[placeInRowArray++].swedish,
+      incorrectAnswers: [
+        rows[placeInRowArray++].swedish,
+        rows[placeInRowArray++].swedish,
+      ],
+    });
+  }
+  return currentQuestions;
+};
+
+router.get("/", (req, res) => {
+  let sql = "select english,swedish from fruit order by random() limit ?;";
+  let params = [numberOfQuestions * 3];
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
     }
-    return currentQuestions;
-  };
-  
-  router.get("/", (req, res) => {
-    var sql = "select english,swedish from fruit order by random() limit ?;";
-    var params = [numberOfQuestions * 3];
-    db.all(sql, params, (err, rows) => {
-      if (err) {
-        res.status(400).json({ error: err.message });
-        return;
-      }
-      var currentQuestions = getQuestions(rows);
-      res.json({
-        category: "fruit",
-        questions: currentQuestions,
-      });
+    let currentQuestions = getQuestions(rows);
+    res.json({
+      category: "fruit",
+      questions: currentQuestions,
     });
   });
+});
 
-  module.exports = router;  
+module.exports = router;
