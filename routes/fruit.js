@@ -19,7 +19,11 @@ router.get("/:language", (req, res) => {
       res.status(400).json({ error: err.message });
       return;
     }
-    let currentQuestions = utilities.getQuestions(rows, numberOfQuestions);
+    let currentQuestions = utilities.getQuestions(
+      rows,
+      numberOfQuestions,
+      req.params.language
+    );
     res.json({
       category: "fruit",
       questions: currentQuestions,
