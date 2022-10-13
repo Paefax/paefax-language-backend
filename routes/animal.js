@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 let animalDB = require("../animalDatabase.js");
 const utilities = require("./utilities");
-const numberOfQuestions = 1;
+const numberOfQuestions = 10;
 const implementedLanguages = ["swedish"];
 
 router.get("/:language", (req, res) => {
