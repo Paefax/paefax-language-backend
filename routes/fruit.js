@@ -3,9 +3,16 @@ const router = express.Router();
 let fruitDB = require("../fruitDatabase.js");
 const utilities = require("./utilities");
 const numberOfQuestions = 5;
+const implementedLanguages = ["swedish"];
 
-router.get("/", (req, res) => {
-  let sql = "select english,swedish from fruit order by random() limit ?;";
+router.get("/:language", (req, res) => {
+  if (!implementedLanguages.includes(req.params.language)) {
+    res.status(400).json({
+      error: `${req.params.language} is not an implemented language. Implemented languages are ${implementedLanguages}`,
+    });
+    return;
+  }
+  let sql = `select english,${req.params.language} from fruit order by random() limit ?;`;
   let params = [numberOfQuestions * 3];
   fruitDB.all(sql, params, (err, rows) => {
     if (err) {
