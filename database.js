@@ -1,9 +1,9 @@
-var sqlite3 = require("sqlite3").verbose();
+let sqlite3 = require("sqlite3").verbose();
 
 const DBSOURCE = "fruit.db";
 
 const fillDatabase = (db) => {
-  var insert = "INSERT INTO fruit (english, swedish) VALUES (?,?)";
+  let insert = "INSERT INTO fruit (english, swedish) VALUES (?,?)";
   db.run(insert, ["Pineapple", "Ananas"]);
   db.run(insert, ["Orange", "Apelsin"]);
   db.run(insert, ["Apricot", "Aprikos"]);
@@ -36,7 +36,6 @@ const fillDatabase = (db) => {
   db.run(insert, ["Cherry", "Körsbär"]);
   db.run(insert, ["Gooseberry", "Krusbär"]);
   db.run(insert, ["Apple", "Äpple"]);
-
 };
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
