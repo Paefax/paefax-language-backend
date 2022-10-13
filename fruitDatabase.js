@@ -43,7 +43,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     console.error(err.message);
     throw err;
   } else {
-    console.log("Connected to the SQlite database.");
+    console.log("Connected to the SQlite fruit database.");
     db.run(
       `CREATE TABLE fruit (
             id INTEGER PRIMARY KEY,
@@ -52,7 +52,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             )`,
       (err) => {
         if (err) {
-          console.error("Table already created");
+          console.error("Fruit table already created");
         } else {
           fillDatabase(db);
         }
