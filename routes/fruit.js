@@ -11,6 +11,7 @@ router.get("/:language", (req, res) => {
     res.status(400).json({
       error: `${req.params.language} is not an implemented language. Implemented languages are ${implementedLanguages}`,
     });
+    return;
   }
   let sql = `select english,${req.params.language} from fruit order by random() limit ?;`;
   let params = [numberOfQuestions * 3];
