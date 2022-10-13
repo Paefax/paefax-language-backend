@@ -3,7 +3,7 @@ const router = express.Router();
 let fruitDB = require("../fruitDatabase.js");
 const utilities = require("./utilities/utilities");
 const numberOfQuestions = 5;
-const implementedLanguages = ["swedish"];
+const implementedLanguages = ["swedish", "german", "spanish"];
 
 router.get("/:language", (req, res) => {
   if (!implementedLanguages.includes(req.params.language)) {
