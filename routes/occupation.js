@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 let occupationDB = require("../occupationDatabase.js");
-const utilities = require("./utilities");
+const utilities = require("./utilities/utilities");
 const numberOfQuestions = 10;
 const implementedLanguages = ["swedish"];
 
