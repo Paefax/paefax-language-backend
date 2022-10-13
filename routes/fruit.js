@@ -1,24 +1,8 @@
 const express = require("express");
 const router = express.Router();
 let fruitDB = require("../fruitDatabase.js");
+const utilities = require("./utilities");
 const numberOfQuestions = 5;
-
-const getQuestions = (rows) => {
-  let currentQuestions = [];
-  let placeInRowArray = 0;
-  for (let i = 0; i < numberOfQuestions; i++) {
-    currentQuestions.push({
-      id: i,
-      word: rows[placeInRowArray].english,
-      correctAnswer: rows[placeInRowArray++].swedish,
-      incorrectAnswers: [
-        rows[placeInRowArray++].swedish,
-        rows[placeInRowArray++].swedish,
-      ],
-    });
-  }
-  return currentQuestions;
-};
 
 router.get("/", (req, res) => {
   let sql = "select english,swedish from fruit order by random() limit ?;";
@@ -28,7 +12,7 @@ router.get("/", (req, res) => {
       res.status(400).json({ error: err.message });
       return;
     }
-    let currentQuestions = getQuestions(rows);
+    let currentQuestions = utilities.getQuestions(rows, numberOfQuestions);
     res.json({
       category: "fruit",
       questions: currentQuestions,
