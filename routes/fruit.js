@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 let fruitDB = require("../fruitDatabase.js");
-const utilities = require("./utilities");
+const utilities = require("./utilities/utilities");
 const numberOfQuestions = 5;
 const implementedLanguages = ["swedish"];
 
