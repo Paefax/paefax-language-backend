@@ -3,7 +3,7 @@ let sqlite3 = require("sqlite3").verbose();
 const DBSOURCE = "occupation.db";
 
 const fillDatabase = (db) => {
-  let insert = "INSERT INTO occupation (english, swedish) VALUES (?,?)";
+  let insert = "INSERT INTO occupation (english, swedish, spanish, german) VALUES (?,?,?,?)";
   db.run(insert, ["Lawyer", "Advokat","Abogado","Anwalt"]);
   db.run(insert, ["Architect", "Arkitekt","Arquitecto","Architekt"]);
   db.run(insert, ["Baker", "Bagare","Panadero","Bäcker"]);
@@ -48,7 +48,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       `CREATE TABLE occupation (
             id INTEGER PRIMARY KEY,
             english TEXT,
-            swedish TEXT
+            swedish TEXT,
+            spanish TEXT,
+            german TEXT
             )`,
       (err) => {
         if (err) {

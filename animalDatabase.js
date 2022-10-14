@@ -3,7 +3,7 @@ let sqlite3 = require("sqlite3").verbose();
 const DBSOURCE = "animal.db";
 
 const fillDatabase = (db) => {
-  let insert = "INSERT INTO animal (english, swedish) VALUES (?,?)";
+  let insert = "INSERT INTO animal (english, swedish, spanish, german) VALUES (?,?,?,?)";
   db.run(insert, ["Monkey", "Apa","Mono","Affe"]);
   db.run(insert, ["Bee", "Bi","Abeja","Biene"]);
   db.run(insert, ["Bear", "Björn","Llevar","Tragen"]);
@@ -50,7 +50,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       `CREATE TABLE animal (
             id INTEGER PRIMARY KEY,
             english TEXT,
-            swedish TEXT
+            swedish TEXT,
+            spanish TEXT,
+            german TEXT
             )`,
       (err) => {
         if (err) {
