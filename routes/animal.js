@@ -3,7 +3,7 @@ const router = express.Router();
 let animalDB = require("../animalDatabase.js");
 const utilities = require("./utilities/utilities");
 const numberOfQuestions = 10;
-const implementedLanguages = ["swedish"];
+const implementedLanguages = ["swedish", "german", "spanish"];
 
 router.get("/:language", (req, res) => {
   if (!implementedLanguages.includes(req.params.language)) {
