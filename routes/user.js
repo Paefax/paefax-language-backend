@@ -21,26 +21,32 @@ router.get('/user', (req, res) => {
         }
     })
 
-    res.status(201).send();
+    res.status(200).send();
 });
 
 router.post('/user/create', async (req, res) => {
 
-    try {
+    const rowData = []
 
-        //sätt ifsats för att kolla om användare finns
-      const hashedPassword = await bcrypt.hash(req.body.password, 10)
-      const user = { username: req.body.name, password: hashedPassword }
-     
-      //try catch block runt db-calls
-      let insert = "INSERT INTO users (username, password) VALUES (?,?)";
-      userDB.run(insert,[user.username, user.password]);
+    const findUser = rowData.find(user => user.username === req.body.name)
 
-      res.status(200).send()
-      console.log(rowData);
+    console.log(findUser)
+      if(findUser){
+        throw new Error('already exists');
+      }
+       try{
 
-    } catch {
-      res.status(500).send()
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const user = { username: req.body.name, password: hashedPassword };
+    
+        let insert = "INSERT INTO users (username, password) VALUES (?,?)";
+        userDB.run(insert,[user.username, user.password]);
+
+        res.status(201).send();
+        console.log(rowData);
+    
+    } catch (e){
+      res.status(500).send();
     }
 })
   
