@@ -43,8 +43,11 @@ router.post("/user/create", async (req, res) => {
 });
 
 router.post("/user/login", async (req, res) => {
-  rowData = [];
+  const username = req.body.username;
+  const user = { name: username };
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 
+  rowData = [];
   let findUser = userDB.prepare("SELECT * FROM users WHERE username = ?");
 
   findUser.each(
@@ -60,10 +63,10 @@ router.post("/user/login", async (req, res) => {
 
       try {
         if (await bcrypt.compare(req.body.password, user.password)) {
-          res.send("Success");
+          res.json({ accessToken: accessToken }).send();
           console.log(rowData);
         } else {
-          res.send("Not Allowed");
+          res.status(401).send("Wrong password");
         }
       } catch {
         res.status(401).send();
