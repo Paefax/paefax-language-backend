@@ -26,14 +26,6 @@ router.get('/user', (req, res) => {
 
 router.post('/user/create', async (req, res) => {
 
-    const rowData = []
-
-    const findUser = rowData.find(user => user.username === req.body.name)
-
-    console.log(findUser)
-      if(findUser){
-        throw new Error('already exists');
-      }
        try{
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -45,8 +37,8 @@ router.post('/user/create', async (req, res) => {
         res.status(201).send();
         console.log(rowData);
     
-    } catch (e){
-      res.status(500).send();
+    } catch {
+      res.status(400).send();
     }
 })
   
@@ -73,7 +65,7 @@ router.post('/user/login', async (req, res) => {
             res.send('Not Allowed')
           }
         } catch {
-          res.status(500).send()
+          res.status(401).send()
         }
 
      }, (error,row) => {
