@@ -31,3 +31,6 @@ coverage
 fruit.db
 animal.db
 occupation.db
+
+
+.env
