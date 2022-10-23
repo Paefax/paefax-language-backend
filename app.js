@@ -5,11 +5,13 @@ const port = 3000;
 const fruit = require("./routes/fruit");
 const animal = require("./routes/animal");
 const occupation = require("./routes/occupation");
+const categories = require("./routes/categories");
 
 app.use(cors());
 app.use("/fruit", fruit);
 app.use("/animal", animal);
 app.use("/occupation", occupation);
+app.use("/categories", categories);
 
 app.get("/", (req, res) => {
   res.json({
