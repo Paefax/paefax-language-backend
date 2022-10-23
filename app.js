@@ -12,6 +12,7 @@ app.use("/fruit", fruit);
 app.use("/animal", animal);
 app.use("/occupation", occupation);
 app.use("/categories", categories);
+app.use("/images", express.static("assets/images"));
 
 app.get("/", (req, res) => {
   res.json({
