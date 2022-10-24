@@ -7,15 +7,16 @@ const animal = require("./routes/animal");
 const occupation = require("./routes/occupation");
 const user = require("./routes/user");
 
-app.use(express.json())
+app.use(express.json());
 
 app.use(cors());
 app.use("/fruit", fruit);
 app.use("/animal", animal);
 app.use("/occupation", occupation);
-app.get("/user", user)
-app.post("/user/create", user)
-app.post("/user/login", user)
+app.get("/user", user);
+app.post("/user/create", user);
+app.post("/user/login", user);
+app.put("/user/score/:id", user);
 
 app.get("/", (req, res) => {
   res.json({

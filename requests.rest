@@ -20,3 +20,11 @@ Content-Type: application/json
     "name": "Felix", "password": "password"
 
 }
+
+###
+PUT http://localhost:3000/user/score/1
+Content-Type: application/json
+
+{
+    
+}

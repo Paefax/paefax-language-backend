@@ -27,13 +27,28 @@ router.get("/user", authenticateToken, (req, res) => {
 router.post("/user/create", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = { username: req.body.name, password: hashedPassword };
+    const user = {
+      username: req.body.name,
+      password: hashedPassword,
+      score: 0,
+    };
 
-    let insert = "INSERT INTO users (username, password) VALUES (?,?)";
-    userDB.run(insert, [user.username, user.password]);
+    let insert = "INSERT INTO users (username, password, score) VALUES (?,?,?)";
+    userDB.run(insert, [user.username, user.password, user.score]);
     res.status(201).send();
   } catch {
     res.status(400).send();
+  }
+});
+
+router.put("/user/score/:id", async (req, res) => {
+  const updateScore = 5;
+  let update = "UPDATE users SET score = ?";
+  try {
+    userDB.run(update, updateScore);
+    res.status(200).send();
+  } catch {
+    res.status(500).send();
   }
 });
 
