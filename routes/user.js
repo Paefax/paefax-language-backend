@@ -31,9 +31,7 @@ router.post("/user/create", async (req, res) => {
 
     let insert = "INSERT INTO users (username, password) VALUES (?,?)";
     userDB.run(insert, [user.username, user.password]);
-
     res.status(201).send();
-    console.log(rowData);
   } catch {
     res.status(400).send();
   }
