@@ -1,6 +1,5 @@
 GET http://localhost:3000/user 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2MDA2NjZ9.4Yo5fqtGNBqz2yzG5pggcCMnlyZM7W3az9LE1pHW3yk
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2MDYyNTF9.Y8NqghAZ9CwTwVNc5NbBec3pMjzFqbKwEsta9Y06FVE
 ###
 
 POST http://localhost:3000/user/create
@@ -18,13 +17,12 @@ Content-Type: application/json
 
 {
     "name": "Felix", "password": "password"
-
 }
 
 ###
-PUT http://localhost:3000/user/score/1
+PUT http://localhost:3000/user/score/2
 Content-Type: application/json
 
 {
-    
+    "score": 3
 }
