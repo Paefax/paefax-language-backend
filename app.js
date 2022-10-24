@@ -17,6 +17,7 @@ app.get("/user", user);
 app.post("/user/create", user);
 app.post("/user/login", user);
 app.put("/user/score/:id", user);
+app.get("/user/score/:id", user);
 
 app.get("/", (req, res) => {
   res.json({

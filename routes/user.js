@@ -24,6 +24,25 @@ router.get("/user", authenticateToken, (req, res) => {
   });
 });
 
+router.get("/user/score/:id", async (req, res) => {
+  let select = "SELECT * FROM users WHERE id = ?";
+  const id = req.params.id;
+
+  rowData = [];
+
+  userDB.all(select, id, (error, rows) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send();
+    }
+    rows.forEach((row) => {
+      rowData.push(row);
+      res.json(rowData[0].score).send();
+    });
+    res.status(400).send();
+  });
+});
+
 router.post("/user/create", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
