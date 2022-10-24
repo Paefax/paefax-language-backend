@@ -43,15 +43,9 @@ const fillDatabase = (db) => {
     "/category",
   ]);
   db.run(insert, [
-    "French",
-    "http://localhost:3000/images/french-flag.png",
-    "french flag",
-    "/category",
-  ]);
-  db.run(insert, [
-    "Chinese",
-    "http://localhost:3000/images/chinese-flag.png",
-    "chinese flag",
+    "German",
+    "http://localhost:3000/images/german-flag.png",
+    "german flag",
     "/category",
   ]);
 };
