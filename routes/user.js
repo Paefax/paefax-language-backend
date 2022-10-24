@@ -42,27 +42,15 @@ router.post("/user/create", async (req, res) => {
 });
 
 router.put("/user/score/:id", async (req, res) => {
-  let update = "UPDATE users SET score = ?";
+  let update = "UPDATE users SET score = score + 5 WHERE id = ?";
+  const id = req.params.id;
 
-  let findScore = "SELECT score FROM users WHERE id = ?";
-  rowData = [];
+  if (id > 0) {
+    userDB.run(update, id);
+    res.status(200).send();
+  }
 
-  userDB.all(findScore, req.header, (error, rows) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send();
-    }
-    rows.forEach((row) => {
-      rowData.push(row);
-      userDB.run(update, req.body.score);
-    });
-
-    console.log("Rowdata", rowData);
-    console.log("Req header");
-    console.log("Req header id", req.header.id);
-  });
-
-  res.status(200).send();
+  res.status(400).send();
 });
 
 router.post("/user/login", async (req, res) => {

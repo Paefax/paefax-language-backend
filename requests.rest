@@ -20,9 +20,5 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/user/score/2
+PUT http://localhost:3000/user/score/
 Content-Type: application/json
-
-{
-    "score": 3
-}
