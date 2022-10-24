@@ -42,14 +42,12 @@ router.post("/user/create", async (req, res) => {
 });
 
 router.put("/user/score/:id", async (req, res) => {
-  let update = "UPDATE users SET score = score + 5 WHERE id = ?";
+  let update = "UPDATE users SET score = score + 1 WHERE id = ?";
   const id = req.params.id;
-
   if (id > 0) {
     userDB.run(update, id);
     res.status(200).send();
   }
-
   res.status(400).send();
 });
 
@@ -75,7 +73,6 @@ router.post("/user/login", async (req, res) => {
       try {
         if (await bcrypt.compare(req.body.password, user.password)) {
           res.json({ accessToken: accessToken }).send();
-          console.log(rowData);
         } else {
           res.status(401).send("Wrong password");
         }
