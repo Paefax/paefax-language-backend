@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
-router.get("/user", (req, res) => {
+router.get("/user", authenticateToken, (req, res) => {
   let select = "SELECT * FROM users";
 
   rowData = [];
@@ -16,15 +16,12 @@ router.get("/user", (req, res) => {
     if (error) {
       console.log(error);
       res.status(500).send();
-    } else {
-      rows.forEach((row) => {
-        rowData.push(row);
-      });
-      console.log(rowData);
     }
+    rows.forEach((row) => {
+      rowData.push(row);
+    });
+    res.json(rowData).send();
   });
-
-  res.status(200).send();
 });
 
 router.post("/user/create", async (req, res) => {
@@ -85,11 +82,11 @@ function authenticateToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null) {
-    return res.status(401).send("Not valid");
+    return res.status(401).send("No token registered");
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(403).send("Unvalid token");
+    if (err) return res.status(403).send("The token is unvalid");
     req.user = user;
     next();
   });

@@ -1,4 +1,5 @@
-GET http://localhost:3000/user
+GET http://localhost:3000/user 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2MDAyMzR9.3iZe-3OqU--q_7dMgZiap9LZ0xFPfzHk1FTBxy37eNU
 
 ###
 
@@ -6,7 +7,7 @@ POST http://localhost:3000/user/create
 Content-Type: application/json
 
 {
-    "name": "Frege", "password": "password"
+    "name": "Felix", "password": "password"
 
 }
 
@@ -16,6 +17,6 @@ POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-    "name": "Frege", "password": "passrword"
+    "name": "Felix", "password": "password"
 
 }
