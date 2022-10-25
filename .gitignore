@@ -33,6 +33,6 @@ animal.db
 occupation.db
 languages.db
 categories.db
-user.db
+users.db
 
 .env
