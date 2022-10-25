@@ -40,18 +40,33 @@ router.get("/user", authenticateToken, (req, res) => {
 });
 
 router.post("/user/create", async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = { username: req.body.name, password: hashedPassword };
+  let findUser = userDB.prepare("SELECT * FROM users WHERE username = ?");
 
-    let insert = "INSERT INTO users (username, password) VALUES (?,?)";
-    userDB.run(insert, [user.username, user.password]);
+  //Change to get
+  findUser.each(
+    req.body.name,
+    (error, row) => {},
+    async (error, row) => {
+      findUser.finalize();
+      console.log(row);
+      if (!row) {
+        try {
+          const hashedPassword = await bcrypt.hash(req.body.password, 10);
+          const user = { username: req.body.name, password: hashedPassword };
 
-    res.status(201).send();
-    console.log(rowData);
-  } catch {
-    res.status(400).send();
-  }
+          let insert = "INSERT INTO users (username, password) VALUES (?,?)";
+          userDB.run(insert, [user.username, user.password]);
+
+          res.status(201).send();
+          console.log(rowData);
+        } catch {
+          res.status(400).send();
+        }
+      } else {
+        res.status(400).send("User already exists");
+      }
+    }
+  );
 });
 
 router.post("/user/login", async (req, res) => {
