@@ -77,7 +77,7 @@ router.post("/user/login", async (req, res) => {
 
 router.delete("/logout", (req, res) => {});
 
-function authenticateToken(req, res, next) {
+const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
@@ -90,6 +90,6 @@ function authenticateToken(req, res, next) {
     req.user = user;
     next();
   });
-}
+};
 
 module.exports = router;
