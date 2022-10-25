@@ -46,15 +46,17 @@ router.post("/user/login", async (req, res) => {
 
   rowData = [];
   let findUser = userDB.prepare("SELECT * FROM users WHERE username = ?");
+  console.log("here");
 
   findUser.each(
     req.body.name,
     async (error, row) => {
       rowData.push(row);
 
+      console.log("here2");
       const user = rowData.find((user) => user.username === req.body.name);
-
-      if (user === null) {
+      console.log(user);
+      if (!user) {
         return res.status(400).send("Cannot find user");
       }
 
@@ -71,8 +73,12 @@ router.post("/user/login", async (req, res) => {
     },
     (error, row) => {
       findUser.finalize();
+      if (!row) {
+        res.status(400).send("Invalid login");
+      }
     }
   );
+  // res.status(400).send("test");
 });
 
 router.delete("/logout", (req, res) => {});
