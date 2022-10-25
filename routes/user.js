@@ -7,6 +7,21 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null) {
+    return res.status(401).send("No token registered");
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).send("The token is unvalid");
+    req.user = user;
+    next();
+  });
+};
+
 router.get("/user", authenticateToken, (req, res) => {
   let select = "SELECT * FROM users";
 
@@ -52,20 +67,12 @@ router.post("/user/login", async (req, res) => {
     req.body.name,
     async (error, row) => {
       rowData.push(row);
-
-      console.log("here2");
       const user = rowData.find((user) => user.username === req.body.name);
-      console.log(user);
-      if (!user) {
-        return res.status(400).send("Cannot find user");
-      }
-
       try {
         if (await bcrypt.compare(req.body.password, user.password)) {
           res.json({ accessToken: accessToken }).send();
-          console.log(rowData);
         } else {
-          res.status(401).send("Wrong password");
+          res.status(401).send("Invalid login");
         }
       } catch {
         res.status(401).send();
@@ -78,24 +85,8 @@ router.post("/user/login", async (req, res) => {
       }
     }
   );
-  // res.status(400).send("test");
 });
 
 router.delete("/logout", (req, res) => {});
-
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (token == null) {
-    return res.status(401).send("No token registered");
-  }
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(403).send("The token is unvalid");
-    req.user = user;
-    next();
-  });
-}
 
 module.exports = router;
