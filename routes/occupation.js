@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 let occupationDB = require("../occupationDatabase.js");
 const utilities = require("./utilities/utilities");
-const numberOfQuestions = 10;
+const numberOfQuestions = 5;
 const implementedLanguages = ["swedish", "german", "spanish"];
 
 router.get("/:language", (req, res) => {
