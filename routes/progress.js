@@ -22,6 +22,60 @@ router.get("/", authenticateToken, (req, res) => {
   });
 });
 
+router.post("/update", async (req, res) => {
+  const language = req.body.language;
+  const category = req.body.category;
+  const userId = 1; //Hard coded for now.
+  const progress = 30;
+
+  //Check if it exists
+  let select =
+    "SELECT progress FROM progress WHERE userId=? AND language=? AND category=?";
+  let params = [userId, language, category];
+  const rowData = [];
+  progressDB.all(select, params, (error, rows) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send();
+    }
+    rows.forEach((row) => {
+      rowData.push(row);
+    });
+    if (rowData.length === 0) {
+      addNewProgress(res, userId, language, category);
+    } else {
+      currentProgress = rowData[0].progress;
+      newProgress = currentProgress + 10;
+      updateProgress(res, newProgress, userId, language, category);
+    }
+  });
+});
+
+const addNewProgress = (res, userId, language, category) => {
+  let firstProgress = 10;
+  try {
+    let insert =
+      "INSERT INTO progress (userId, language, category, progress) VALUES (?,?,?,?)";
+    progressDB.run(insert, [userId, language, category, firstProgress]);
+    res.status(201).send();
+    console.log(rowData);
+  } catch {
+    res.status(400).send();
+  }
+};
+
+const updateProgress = (res, progress, userId, language, category) => {
+  try {
+    let update =
+      "UPDATE progress SET progress = ? WHERE userId = ? AND language = ? AND category = ?;";
+    progressDB.run(update, [progress, userId, language, category]);
+    res.status(200).send();
+    console.log(rowData);
+  } catch {
+    res.status(400).send();
+  }
+};
+
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
