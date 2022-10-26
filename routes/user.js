@@ -7,42 +7,14 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
-router.get("/user", authenticateToken, (req, res) => {
-  let select = "SELECT * FROM users";
-
-  rowData = [];
-
-  userDB.all(select, (error, rows) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send();
-    }
-    rows.forEach((row) => {
-      rowData.push(row);
-    });
-    res.json(rowData).send();
-  });
-});
-
-router.post("/user/create", async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = { username: req.body.name, password: hashedPassword };
-
-    let insert = "INSERT INTO users (username, password) VALUES (?,?)";
-    userDB.run(insert, [user.username, user.password]);
-
-    res.status(201).send();
-    console.log(rowData);
-  } catch {
-    res.status(400).send();
-  }
-});
+const generateAccessToken = (user) => {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
+};
 
 router.post("/user/login", async (req, res) => {
   const username = req.body.username;
   const user = { name: username };
-  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+  const accessToken = generateAccessToken(user);
 
   rowData = [];
   let findUser = userDB.prepare("SELECT * FROM users WHERE username = ?");
@@ -75,21 +47,53 @@ router.post("/user/login", async (req, res) => {
   );
 });
 
+router.get("/user", authenticateToken, (req, res) => {
+  let select = "SELECT * FROM users";
+
+  rowData = [];
+
+  userDB.all(select, (error, rows) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send();
+    }
+    rows.forEach((row) => {
+      rowData.push(row);
+    });
+    res.json(rowData).send();
+  });
+});
+
+router.post("/user/create", async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = { username: req.body.name, password: hashedPassword };
+
+    let insert = "INSERT INTO users (username, password) VALUES (?,?)";
+    userDB.run(insert, [user.username, user.password]);
+
+    res.status(201).send();
+    console.log(rowData);
+  } catch {
+    res.status(400).send();
+  }
+});
+
 router.delete("/logout", (req, res) => {});
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+// function authenticateToken(req, res, next) {
+//   const authHeader = req.headers["authorization"];
+//   const token = authHeader && authHeader.split(" ")[1];
 
-  if (token == null) {
-    return res.status(401).send("No token registered");
-  }
+//   if (token == null) {
+//     return res.status(401).send("No token registered");
+//   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(403).send("The token is unvalid");
-    req.user = user;
-    next();
-  });
-}
+//   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+//     if (err) return res.status(403).send("The token is unvalid");
+//     req.user = user;
+//     next();
+//   });
+// }
 
 module.exports = router;
