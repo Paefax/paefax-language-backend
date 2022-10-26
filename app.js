@@ -19,6 +19,7 @@ app.get("/user", user);
 app.post("/user/create", user);
 app.post("/user/login", user);
 app.post("/user/token", user);
+app.delete("/user/logout", user);
 app.use("/languages", languages);
 app.use("/categories", categories);
 app.use("/images", express.static("assets/images"));

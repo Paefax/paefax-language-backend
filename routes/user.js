@@ -6,12 +6,13 @@ let userDB = require("../userDatabase.js");
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
+const { OPEN_READWRITE } = require("sqlite3");
 
 // Should be entered into a database
 let refreshTokens = [];
 
 const generateAccessToken = (user) => {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "45s" });
 };
 
 router.post("/user/token", (req, res) => {
@@ -103,7 +104,10 @@ router.post("/user/create", async (req, res) => {
   }
 });
 
-router.delete("/logout", (req, res) => {});
+router.delete("/user/logout", (req, res) => {
+  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+  res.sendStatus(204);
+});
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];

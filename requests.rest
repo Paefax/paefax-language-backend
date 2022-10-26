@@ -1,5 +1,5 @@
 GET http://localhost:3000/user 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY3ODAyNTAsImV4cCI6MTY2Njc4MDI2NX0.arWYsxZjTiazvpmCc9hPxXzu5DIFXGRH_iMlv2hoe6o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY3ODExODEsImV4cCI6MTY2Njc4MTIyNn0.wM3LK1SfRssQGb5i1mu8nq074aU2NuYNeOKcgsbw0ls
 ###
 
 POST http://localhost:3000/user/create
@@ -26,5 +26,13 @@ POST http://localhost:3000/user/token
 Content-Type: application/json
 
 {
-    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY3ODA2NTJ9.5cOFfvF4M9Iu_1Oxqg0isRdiE2LARaQk5agBlSvbFfo"
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY3ODEwMzB9.KB2f-X-gxGS13T9cYXHxUl_dyOlb1DwL2KQvG3dGb_A"
+}
+
+###
+Delete http://localhost:3000/user/logout
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY3ODExNjl9.927Cwo5P_v_Q_ylvHGS4_jLcco99EcACjzAAqImoeIk"
 }
