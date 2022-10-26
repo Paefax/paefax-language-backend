@@ -15,6 +15,7 @@ router.post("/user/login", async (req, res) => {
   const username = req.body.username;
   const user = { name: username };
   const accessToken = generateAccessToken(user);
+  const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
 
   rowData = [];
   let findUser = userDB.prepare("SELECT * FROM users WHERE username = ?");
@@ -32,7 +33,9 @@ router.post("/user/login", async (req, res) => {
 
       try {
         if (await bcrypt.compare(req.body.password, user.password)) {
-          res.json({ accessToken: accessToken }).send();
+          res
+            .json({ accessToken: accessToken, refreshToken: refreshToken })
+            .send();
           console.log(rowData);
         } else {
           res.status(401).send("Wrong password");
