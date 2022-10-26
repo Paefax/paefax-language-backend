@@ -46,7 +46,11 @@ router.post("/update", async (req, res) => {
     } else {
       currentProgress = rowData[0].progress;
       newProgress = currentProgress + 10;
-      updateProgress(res, newProgress, userId, language, category);
+      if (newProgress <= 100) {
+        updateProgress(res, newProgress, userId, language, category);
+      } else {
+        res.status(200).send();
+      }
     }
   });
 });
