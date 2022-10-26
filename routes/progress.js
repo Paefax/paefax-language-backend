@@ -26,7 +26,6 @@ router.post("/update", async (req, res) => {
   const language = req.body.language;
   const category = req.body.category;
   const userId = 1; //Hard coded for now.
-  const progress = 30;
 
   //Check if it exists
   let select =
