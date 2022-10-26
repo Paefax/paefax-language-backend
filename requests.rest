@@ -1,6 +1,5 @@
 GET http://localhost:3000/user 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1Mjh9.m0EOH1j5p_Kui3aLyHaxpROuJ80zWpgupcFBsP7hY-M
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY3ODAyNTAsImV4cCI6MTY2Njc4MDI2NX0.arWYsxZjTiazvpmCc9hPxXzu5DIFXGRH_iMlv2hoe6o
 ###
 
 POST http://localhost:3000/user/create
@@ -19,4 +18,13 @@ Content-Type: application/json
 {
     "name": "Kevin", "password": "password"
 
+}
+
+
+###
+POST http://localhost:3000/user/token   
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY3ODA2NTJ9.5cOFfvF4M9Iu_1Oxqg0isRdiE2LARaQk5agBlSvbFfo"
 }

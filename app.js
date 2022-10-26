@@ -7,7 +7,7 @@ const animal = require("./routes/animal");
 const occupation = require("./routes/occupation");
 const user = require("./routes/user");
 
-app.use(express.json())
+app.use(express.json());
 const languages = require("./routes/languages");
 const categories = require("./routes/categories");
 
@@ -15,9 +15,10 @@ app.use(cors());
 app.use("/fruit", fruit);
 app.use("/animal", animal);
 app.use("/occupation", occupation);
-app.get("/user", user)
-app.post("/user/create", user)
-app.post("/user/login", user)
+app.get("/user", user);
+app.post("/user/create", user);
+app.post("/user/login", user);
+app.post("/user/token", user);
 app.use("/languages", languages);
 app.use("/categories", categories);
 app.use("/images", express.static("assets/images"));

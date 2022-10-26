@@ -7,15 +7,36 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
+// Should be entered into a database
+let refreshTokens = [];
+
 const generateAccessToken = (user) => {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
 };
+
+router.post("/user/token", (req, res) => {
+  const refreshToken = req.body.token;
+  if (refreshToken == null) return res.status(401).send("Error 1");
+  if (!refreshTokens.includes(refreshToken)) {
+    console.log(refreshTokens);
+    return res.status(403).send("Error 2");
+  }
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).send("Error 3");
+    }
+    const accessToken = generateAccessToken({ name: user.username });
+    res.json({ accessToken: accessToken });
+  });
+});
 
 router.post("/user/login", async (req, res) => {
   const username = req.body.username;
   const user = { name: username };
   const accessToken = generateAccessToken(user);
   const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+  refreshTokens.push(refreshToken);
 
   rowData = [];
   let findUser = userDB.prepare("SELECT * FROM users WHERE username = ?");
@@ -84,19 +105,17 @@ router.post("/user/create", async (req, res) => {
 
 router.delete("/logout", (req, res) => {});
 
-// function authenticateToken(req, res, next) {
-//   const authHeader = req.headers["authorization"];
-//   const token = authHeader && authHeader.split(" ")[1];
-
-//   if (token == null) {
-//     return res.status(401).send("No token registered");
-//   }
-
-//   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-//     if (err) return res.status(403).send("The token is unvalid");
-//     req.user = user;
-//     next();
-//   });
-// }
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) {
+    return res.status(401).send("No token registered");
+  }
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).send("The token is unvalid");
+    req.user = user;
+    next();
+  });
+}
 
 module.exports = router;
