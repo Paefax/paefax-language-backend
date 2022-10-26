@@ -29,8 +29,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1M
 
 POST http://localhost:3000/progress/update 
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1Mjh9.m0EOH1j5p_Kui3aLyHaxpROuJ80zWpgupcFBsP7hY-M
 
 {
-    "language": "german", "category": "animal"
+    "language": "german", "category": "fruit"
 
 }

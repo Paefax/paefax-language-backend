@@ -22,12 +22,11 @@ router.get("/", authenticateToken, (req, res) => {
   });
 });
 
-router.post("/update", async (req, res) => {
+router.post("/update", authenticateToken, (req, res) => {
   const language = req.body.language;
   const category = req.body.category;
   const userId = 1; //Hard coded for now.
 
-  //Check if it exists
   let select =
     "SELECT progress FROM progress WHERE userId=? AND language=? AND category=?";
   let params = [userId, language, category];
