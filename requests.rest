@@ -33,5 +33,36 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1M
 
 {
     "language": "german", "category": "fruit"
+}
 
+###
+
+GET http://localhost:3000/user/quiz 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1Mjh9.m0EOH1j5p_Kui3aLyHaxpROuJ80zWpgupcFBsP7hY-M
+
+###
+
+GET http://localhost:3000/user/quiz/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1Mjh9.m0EOH1j5p_Kui3aLyHaxpROuJ80zWpgupcFBsP7hY-M
+
+###
+
+POST http://localhost:3000/user/quiz
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1Mjh9.m0EOH1j5p_Kui3aLyHaxpROuJ80zWpgupcFBsP7hY-M
+
+{
+    "name": "test name", 
+    "language": "swedish", 
+    "questions": 
+    [
+        {
+        "question": "banana",
+        "correctAnswer": "banan"
+        },
+        {
+        "question": "apple",
+        "correctAnswer": "äpple"
+        }
+    ]
 }
