@@ -77,7 +77,19 @@ router.post("/login", async (req, res) => {
 
 router.delete("/logout", (req, res) => {});
 
-router.get("/quiz", authenticateToken, (req, res) => {
+router.get("/quiz/:id/:language", authenticateToken, (req, res) => {
+  let language = req.params.language;
+  let userId = req.params.id;
+
+  let select = "SELECT * FROM user_quiz WHERE language = ? AND userId = ?";
+
+  userDB.all(select, [language, userId], (error, rows) => {
+    if (error) {
+      console.error(error);
+      res.status(500).end();
+    } else [];
+  });
+
   console.log("Get all");
   res.status(200).end();
 });
