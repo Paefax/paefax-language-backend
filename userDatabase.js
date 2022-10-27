@@ -20,6 +20,34 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         }
       }
     );
+
+    db.run(
+      `CREATE TABLE user_quiz (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            language TEXT            
+            )`,
+      (err) => {
+        if (err) {
+          console.error("User-quiz table already created");
+        }
+      }
+    );
+
+    db.run(
+      `CREATE TABLE user_quiz_question (
+            id INTEGER PRIMARY KEY,
+            question TEXT,
+            correctAnswer TEXT,
+            userQuizId INTEGER,
+            FOREIGN KEY (userQuizId) REFERENCES user_quiz (id)     
+            )`,
+      (err) => {
+        if (err) {
+          console.error("User-quiz-question table already created");
+        }
+      }
+    );
   }
 });
 
