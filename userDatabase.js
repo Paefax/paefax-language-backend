@@ -25,7 +25,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       `CREATE TABLE user_quiz (
             id INTEGER PRIMARY KEY,
             name TEXT,
-            language TEXT            
+            language TEXT,
+            userId INTEGER,
+            FOREIGN KEY (userId) REFERENCES users (id)        
             )`,
       (err) => {
         if (err) {
