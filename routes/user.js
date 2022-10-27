@@ -77,6 +77,26 @@ router.post("/login", async (req, res) => {
 
 router.delete("/logout", (req, res) => {});
 
+router.get("/quiz", authenticateToken, (req, res) => {
+  console.log("Get all");
+  res.status(200).end();
+});
+
+router.get("/quiz/:id", authenticateToken, (req, res) => {
+  console.log("Get one with id ", req.params.id);
+  res.status(200).end();
+});
+
+router.post("/quiz", authenticateToken, (req, res) => {
+  console.log(
+    "Post one ",
+    req.body.name,
+    req.body.language,
+    req.body.questions
+  );
+  res.status(200).end();
+});
+
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
