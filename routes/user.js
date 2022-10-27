@@ -73,20 +73,34 @@ router.post("/user/login", async (req, res) => {
 });
 
 router.get("/user", authenticateToken, (req, res) => {
-  let select = "SELECT * FROM users";
+  // Ta emot token
+  const authHeader = req.headers["authorization"];
 
+  //JWT Verify auth heather
+
+  let select;
   rowData = [];
 
-  userDB.all(select, (error, rows) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send();
-    }
-    rows.forEach((row) => {
-      rowData.push(row);
+  try {
+    const decodedToken = jwt.verify(
+      authHeader,
+      process.env.ACCESS_TOKEN_SECRET
+    );
+    userDB.all(select, (error, rows) => {
+      if (error) {
+        res.status(500).send();
+      }
+      rows.forEach((row) => {
+        rowData.push(row);
+      });
+
+      res.json(rowData).send();
     });
-    res.json(rowData).send();
-  });
+  } catch {
+    console.log(authHeader);
+    res.statusMessage = "Json token invalid";
+    res.status(401).end();
+  }
 });
 
 router.post("/user/create", async (req, res) => {
@@ -98,7 +112,6 @@ router.post("/user/create", async (req, res) => {
     userDB.run(insert, [user.username, user.password]);
 
     res.status(201).send();
-    console.log(rowData);
   } catch {
     res.status(400).send();
   }
