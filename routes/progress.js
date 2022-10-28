@@ -14,11 +14,12 @@ router.get("/", authenticateToken, (req, res) => {
     if (error) {
       console.log(error);
       res.status(500).send();
+    } else {
+      rows.forEach((row) => {
+        rowData.push(row);
+      });
+      res.json(rowData);
     }
-    rows.forEach((row) => {
-      rowData.push(row);
-    });
-    res.json(rowData).send();
   });
 });
 
