@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
-router.get("/user", authenticateToken, (req, res) => {
+router.get("/", authenticateToken, (req, res) => {
   let select = "SELECT * FROM users";
 
   rowData = [];
@@ -24,7 +24,7 @@ router.get("/user", authenticateToken, (req, res) => {
   });
 });
 
-router.post("/user/create", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = { username: req.body.name, password: hashedPassword };
@@ -39,7 +39,7 @@ router.post("/user/create", async (req, res) => {
   }
 });
 
-router.post("/user/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const username = req.body.username;
   const user = { name: username };
   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);

@@ -13,15 +13,13 @@ const categories = require("./routes/categories");
 app.use(express.json());
 
 app.use(cors());
+app.use("/images", express.static("assets/images"));
 app.use("/fruit", fruit);
 app.use("/animal", animal);
 app.use("/occupation", occupation);
-app.get("/user", user);
-app.post("/user/create", user);
-app.post("/user/login", user);
+app.use("/user", user);
 app.use("/languages", languages);
 app.use("/categories", categories);
-app.use("/images", express.static("assets/images"));
 app.use("/progress", progress);
 
 app.get("/", (req, res) => {
