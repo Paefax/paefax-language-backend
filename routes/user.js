@@ -20,7 +20,7 @@ router.get("/", authenticateToken, (req, res) => {
     rows.forEach((row) => {
       rowData.push(row);
     });
-    res.json(rowData).send();
+    res.json(rowData);
   });
 });
 
