@@ -76,7 +76,6 @@ router.post("/user/login", async (req, res) => {
 
   rowData = [];
   let findUser = userDB.prepare("SELECT * FROM users WHERE username = ?");
-  console.log("here");
 
   findUser.each(
     req.body.name,
