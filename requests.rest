@@ -37,7 +37,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1M
 
 ###
 
-GET http://localhost:3000/user/quiz 
+GET http://localhost:3000/user/quiz/1/swedish
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1Mjh9.m0EOH1j5p_Kui3aLyHaxpROuJ80zWpgupcFBsP7hY-M
 
 ###
