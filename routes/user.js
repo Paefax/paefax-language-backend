@@ -77,46 +77,59 @@ router.post("/login", async (req, res) => {
 
 router.delete("/logout", (req, res) => {});
 
-router.get("/quiz/:userId/:language", authenticateToken, (req, res) => {
+router.get("/quiz/:userId/:language", authenticateToken, async (req, res) => {
   let userId = req.params.userId;
   let language = req.params.language;
 
   let quizzes = [];
 
+  let userQuiz = {
+    id: 0,
+    name: "",
+    language: "",
+    questions: [],
+  };
+
   let select = "SELECT * FROM user_quiz WHERE userId = ? AND language = ?";
 
-  userDB.all(select, [userId, language], (error, rows) => {
-    if (error) {
-      console.error("No such Quiz ", error);
-      res.status(404).send("No such User Quiz");
-    } else {
-      select = "SELECT * FROM user_quiz_question WHERE userQuizId = ?";
+  await new Promise((resolve, reject) => {
+    userDB.all(select, [userId, language], (error, rows) => {
+      if (error) {
+        reject(error);
+        console.error("No such Quiz ", error);
+        res.status(404).send("No such User Quiz");
+      } else {
+        resolve(
+          rows.forEach((row) => {
+            userQuiz.id = row.id;
+            userQuiz.name = row.name;
+            userQuiz.language = row.language;
 
-      for (let i = 0; i < rows.length; i++) {
-        let userQuiz = {
-          name: rows[i].name,
-          language: rows[i].language,
-          questions: [],
-        };
-
-        userDB.all(select, [i + 1], (error, rows) => {
-          if (error) {
-            console.error("No such Questions ", error);
-            res.status(404).send("Quiz contains no questions");
-          } else {
-            console.log("Rows ", rows);
-            userQuiz.questions = rows;
-
-            console.log("User quiz ", userQuiz);
             quizzes.push(userQuiz);
-          }
-        });
+          })
+        );
       }
-    }
-
-    console.log("All quizzes ", quizzes);
-    res.status(200).json(quizzes);
+    });
   });
+
+  select = "SELECT * FROM user_quiz_question WHERE userQuizId = ?";
+
+  await new Promise((resolve, reject) => {
+    quizzes.forEach((quiz) => {
+      userDB.all(select, [quiz.id], (error, rows) => {
+        if (error) {
+          reject(error);
+          console.error("No such Questions ", error);
+          res.status(404).send("Quiz contains no questions");
+        } else {
+          resolve((userQuiz.questions = rows));
+        }
+      });
+    });
+  });
+
+  console.log("All quizzes ", quizzes);
+  res.status(200).json(quizzes);
 });
 
 router.get("/quiz/:quizId", authenticateToken, (req, res) => {
