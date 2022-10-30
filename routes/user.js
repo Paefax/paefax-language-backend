@@ -77,36 +77,80 @@ router.post("/login", async (req, res) => {
 
 router.delete("/logout", (req, res) => {});
 
-router.get("/quiz/:id/:language", authenticateToken, (req, res) => {
+router.get("/quiz/:userId/:language", authenticateToken, (req, res) => {
+  let userId = req.params.userId;
   let language = req.params.language;
-  let userId = req.params.id;
 
-  let select = "SELECT * FROM user_quiz WHERE language = ? AND userId = ?";
+  let quizzes = [];
 
-  userDB.all(select, [language, userId], (error, rows) => {
+  let select = "SELECT * FROM user_quiz WHERE userId = ? AND language = ?";
+
+  userDB.all(select, [userId, language], (error, rows) => {
     if (error) {
-      console.error(error);
-      res.status(500).end();
-    } else [];
-  });
+      console.error("No such Quiz ", error);
+      res.status(404).send("No such User Quiz");
+    } else {
+      select = "SELECT * FROM user_quiz_question WHERE userQuizId = ?";
 
-  console.log("Get all");
-  res.status(200).end();
+      for (let i = 0; i < rows.length; i++) {
+        let userQuiz = {
+          name: rows[i].name,
+          language: rows[i].language,
+          questions: [],
+        };
+
+        userDB.all(select, [i + 1], (error, rows) => {
+          if (error) {
+            console.error("No such Questions ", error);
+            res.status(404).send("Quiz contains no questions");
+          } else {
+            console.log("Rows ", rows);
+            userQuiz.questions = rows;
+
+            console.log("User quiz ", userQuiz);
+            quizzes.push(userQuiz);
+          }
+        });
+      }
+    }
+
+    console.log("All quizzes ", quizzes);
+    res.status(200).json(quizzes);
+  });
 });
 
-router.get("/quiz/:id", authenticateToken, (req, res) => {
-  console.log("Get one with id ", req.params.id);
+router.get("/quiz/:quizId", authenticateToken, (req, res) => {
+  console.log("Get one with Quiz Id ", req.params.quizId);
   res.status(200).end();
 });
 
 router.post("/quiz", authenticateToken, (req, res) => {
-  console.log(
-    "Post one ",
-    req.body.name,
-    req.body.language,
-    req.body.questions
-  );
-  res.status(200).end();
+  let name = req.body.name;
+  let language = req.body.language;
+  let userId = 1;
+  let questions = req.body.questions;
+
+  let insert = "INSERT INTO user_quiz (name, language, userId) VALUES (?,?,?)";
+
+  userDB.run(insert, [name, language, userId], function (error) {
+    if (error) {
+      console.error("Insert failed ", error);
+      res.status(500).send("Insert failed");
+    } else {
+      insert =
+        "INSERT INTO user_quiz_question (question, correctAnswer, userQuizId) VALUES (?,?,?)";
+
+      questions.forEach((question) => {
+        userDB.run(insert, [
+          question.question,
+          question.correctAnswer,
+          this.lastID,
+        ]);
+      });
+
+      res.status(201).end();
+    }
+  });
 });
 
 function authenticateToken(req, res, next) {
