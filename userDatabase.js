@@ -27,7 +27,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             name TEXT,
             language TEXT,
             userId INTEGER,
-            FOREIGN KEY (userId) REFERENCES users (id)        
+            FOREIGN KEY (userId) REFERENCES users (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE        
             )`,
       (err) => {
         if (err) {
@@ -42,7 +44,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             question TEXT,
             correctAnswer TEXT,
             userQuizId INTEGER,
-            FOREIGN KEY (userQuizId) REFERENCES user_quiz (id)     
+            FOREIGN KEY (userQuizId) REFERENCES user_quiz (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE      
             )`,
       (err) => {
         if (err) {
