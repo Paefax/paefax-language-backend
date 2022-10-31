@@ -34,5 +34,6 @@ occupation.db
 languages.db
 categories.db
 users.db
+progress.db
 
 .env
