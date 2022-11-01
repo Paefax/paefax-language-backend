@@ -2,55 +2,83 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 let progressDB = require("../progressDatabase.js");
+let userDB = require("../userDatabase.js");
 const jwt = require("jsonwebtoken");
 
 router.get("/", authenticateToken, (req, res) => {
-  let userId = 1; //This should not be hard coded. Should get userId from JWT in future
+  const userId = [];
 
-  let select = "SELECT language,category,progress FROM progress WHERE userId=?";
-  let params = [userId];
-  const rowData = [];
-  progressDB.all(select, params, (error, rows) => {
+  let selectId = "SELECT id FROM users WHERE jwt = ?";
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  userDB.all(selectId, token, (error, rows) => {
     if (error) {
       console.log(error);
       res.status(500).send();
-    } else {
-      rows.forEach((row) => {
-        rowData.push(row);
-      });
-      res.json(rowData);
     }
+    rows.forEach((row) => {
+      userId.push(row);
+    });
+    let select =
+      "SELECT language,category,progress FROM progress WHERE userId=?";
+    let params = [userId[0].id];
+    const rowData = [];
+    progressDB.all(select, params, (error, rows) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send();
+      } else {
+        rows.forEach((row) => {
+          rowData.push(row);
+        });
+        res.json(rowData);
+      }
+    });
   });
 });
 
 router.post("/update", authenticateToken, (req, res) => {
   const language = req.body.language;
   const category = req.body.category;
-  const userId = 1; //Hard coded for now.
+  const userIdData = [];
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
-  let select =
-    "SELECT progress FROM progress WHERE userId=? AND language=? AND category=?";
-  let params = [userId, language, category];
-  const rowData = [];
-  progressDB.all(select, params, (error, rows) => {
+  let selectId = "SELECT id FROM users WHERE jwt = ?";
+  userDB.all(selectId, token, (error, rows) => {
     if (error) {
       console.log(error);
       res.status(500).send();
     }
     rows.forEach((row) => {
-      rowData.push(row);
+      userIdData.push(row);
     });
-    if (rowData.length === 0) {
-      addNewProgress(res, userId, language, category);
-    } else {
-      currentProgress = rowData[0].progress;
-      newProgress = currentProgress + 10;
-      if (newProgress <= 100) {
-        updateProgress(res, newProgress, userId, language, category);
-      } else {
-        res.status(200).send();
+    let userId = userIdData[0].id;
+    let select =
+      "SELECT progress FROM progress WHERE userId=? AND language=? AND category=?";
+    let params = [userId, language, category];
+    const rowData = [];
+    progressDB.all(select, params, (error, rows) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send();
       }
-    }
+      rows.forEach((row) => {
+        rowData.push(row);
+      });
+      if (rowData.length === 0) {
+        addNewProgress(res, userId, language, category);
+      } else {
+        currentProgress = rowData[0].progress;
+        newProgress = currentProgress + 10;
+        if (newProgress <= 100) {
+          updateProgress(res, newProgress, userId, language, category);
+        } else {
+          res.status(200).send();
+        }
+      }
+    });
   });
 });
 
