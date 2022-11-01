@@ -114,7 +114,7 @@ router.delete("/logout", authenticateToken, (req, res) => {
   res.status(204).end();
 });
 
-router.get("/quiz/:userId/:language", authenticateToken, (req, res) => {
+router.get("/quiz/:userId/:language", authenticateToken, async (req, res) => {
   let userId = req.params.userId;
   let language = req.params.language;
 
@@ -129,48 +129,44 @@ router.get("/quiz/:userId/:language", authenticateToken, (req, res) => {
 
   let select = "SELECT * FROM user_quiz WHERE userId = ? AND language = ?";
 
-  userDB.all(select, [userId, language], (error, rows) => {
-    if (error) {
-      console.error("No such Quiz ", error);
-      res.status(404).send("No such User Quiz");
-    } else {
-      rows.forEach((row) => {
-        userQuiz.id = row.id;
-        userQuiz.name = row.name;
-        userQuiz.language = row.language;
+  await new Promise((resolve, reject) => {
+    userDB.all(select, [userId, language], (error, rows) => {
+      if (error) {
+        console.error("No such Quiz ", error);
+        res.status(404).send("No such User Quiz");
+        reject();
+      } else {
+        rows.forEach((row) => {
+          userQuiz.id = row.id;
+          userQuiz.name = row.name;
+          userQuiz.language = row.language;
 
-        quizzes.push(JSON.parse(JSON.stringify(userQuiz)));
-      });
+          quizzes.push(JSON.parse(JSON.stringify(userQuiz)));
+        });
 
-      select = "SELECT * FROM user_quiz_question WHERE userQuizId = ?";
+        select = "SELECT * FROM user_quiz_question WHERE userQuizId = ?";
 
-      /*         for (let i = 0; i < quizzes.length; i++) {
-          userDB.all(select, [quiz.id], (error, rows) => {
+        for (let i = 1; i < quizzes.length + 1; i++) {
+          userDB.all(select, [i], (error, rows) => {
             if (error) {
               console.error("No such Questions ", error);
               res.status(404).send("Quiz contains no questions");
+              reject();
             } else {
-              quiz.questions = rows;
+              quizzes[i - 1].questions = rows;
+            }
+
+            if (i === quizzes.length) {
+              resolve();
             }
           });
-          
-        } */
-
-      quizzes.forEach((quiz) => {
-        userDB.all(select, [quiz.id], (error, rows) => {
-          if (error) {
-            console.error("No such Questions ", error);
-            res.status(404).send("Quiz contains no questions");
-          } else {
-            quiz.questions = rows;
-          }
-        });
-      });
-
-      console.log("All quizzes ", quizzes);
-      res.status(200).json(quizzes);
-    }
+        }
+      }
+    });
   });
+
+  console.log("All quizzes ", quizzes);
+  res.status(200).json(quizzes);
 });
 
 router.get("/quiz/:quizId", authenticateToken, (req, res) => {
