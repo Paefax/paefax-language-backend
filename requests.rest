@@ -1,5 +1,5 @@
 GET http://localhost:3000/user 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMjc3NTZ9.tsaQe_-FScK-uXvLSoQEFHzeevXEFWomsG48roQfzXU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
 
 ###
 
@@ -23,13 +23,13 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/progress 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMjc3NTZ9.tsaQe_-FScK-uXvLSoQEFHzeevXEFWomsG48roQfzXU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
 
 ###
 
 POST http://localhost:3000/progress/update 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMjc3NTZ9.tsaQe_-FScK-uXvLSoQEFHzeevXEFWomsG48roQfzXU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
 
 {
     "language": "german", "category": "fruit"
@@ -38,31 +38,31 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMjc3N
 ###
 
 GET http://localhost:3000/user/quiz/1/swedish
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMjc3NTZ9.tsaQe_-FScK-uXvLSoQEFHzeevXEFWomsG48roQfzXU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
 
 ###
 
 GET http://localhost:3000/user/quiz/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMjc3NTZ9.tsaQe_-FScK-uXvLSoQEFHzeevXEFWomsG48roQfzXU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
 
 ###
 
 POST http://localhost:3000/user/quiz
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMjc3NTZ9.tsaQe_-FScK-uXvLSoQEFHzeevXEFWomsG48roQfzXU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
 
 {
-    "name": "test name", 
+    "name": "test name 5", 
     "language": "swedish", 
     "questions": 
     [
         {
-        "question": "banana",
-        "correctAnswer": "banan"
+        "question": "banana5",
+        "correctAnswer": "banan5"
         },
         {
-        "question": "apple",
-        "correctAnswer": "äpple"
+        "question": "apple5",
+        "correctAnswer": "äpple5"
         }
     ]
 }
