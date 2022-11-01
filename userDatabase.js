@@ -12,7 +12,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       `CREATE TABLE users (
             id INTEGER PRIMARY KEY,
             username TEXT,
-            password TEXT            
+            password TEXT,
+            jwt TEXT            
             )`,
       (err) => {
         if (err) {
