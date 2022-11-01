@@ -23,11 +23,13 @@ const authenticateToken = (req, res, next) => {
 };
 
 router.get("/", authenticateToken, (req, res) => {
-  let select = "SELECT * FROM users";
+  let select = "SELECT * FROM users WHERE jwt = ?";
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
   rowData = [];
 
-  userDB.all(select, (error, rows) => {
+  userDB.all(select, token, (error, rows) => {
     if (error) {
       console.log(error);
       res.status(500).send();
@@ -54,8 +56,9 @@ router.post("/create", async (req, res) => {
           const hashedPassword = await bcrypt.hash(req.body.password, 10);
           const user = { username: req.body.name, password: hashedPassword };
 
-          let insert = "INSERT INTO users (username, password) VALUES (?,?)";
-          userDB.run(insert, [user.username, user.password]);
+          let insert =
+            "INSERT INTO users (username, password, jwt) VALUES (?,?,?)";
+          userDB.run(insert, [user.username, user.password, ""]);
 
           res.status(201).send();
           console.log(rowData);
@@ -84,6 +87,8 @@ router.post("/login", async (req, res) => {
       const user = rowData.find((user) => user.username === req.body.name);
       try {
         if (await bcrypt.compare(req.body.password, user.password)) {
+          let update = "UPDATE users SET jwt = ? WHERE username = ?";
+          userDB.run(update, [accessToken, user.username]);
           res.json({ accessToken: accessToken }).send();
         } else {
           res.status(401).send("Invalid login");
@@ -101,6 +106,12 @@ router.post("/login", async (req, res) => {
   );
 });
 
-router.delete("/logout", (req, res) => {});
+router.delete("/logout", authenticateToken, (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  let insert = "UPDATE users SET jwt = ? WHERE jwt = ?";
+  userDB.run(insert, ["", token]);
+  res.status(204).end();
+});
 
 module.exports = router;
