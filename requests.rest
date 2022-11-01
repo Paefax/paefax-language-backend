@@ -1,5 +1,5 @@
 GET http://localhost:3000/user 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1Mjh9.m0EOH1j5p_Kui3aLyHaxpROuJ80zWpgupcFBsP7hY-M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjcyOTQ4NzV9.B9w0fi4CoEedYcw9KOiaEi6fPjLBUu8dcOh-qjXaJuE
 
 ###
 
@@ -17,7 +17,7 @@ POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-    "name": "Kevin", "password": "password"
+    "name": "Helena", "password": "Halldin"
 
 }
 
