@@ -87,8 +87,8 @@ router.post("/login", async (req, res) => {
       const user = rowData.find((user) => user.username === req.body.name);
       try {
         if (await bcrypt.compare(req.body.password, user.password)) {
-          let insert = "UPDATE users SET jwt = ? WHERE username = ?";
-          userDB.run(insert, [accessToken, user.username]);
+          let update = "UPDATE users SET jwt = ? WHERE username = ?";
+          userDB.run(update, [accessToken, user.username]);
           res.json({ accessToken: accessToken }).send();
         } else {
           res.status(401).send("Invalid login");
