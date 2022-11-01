@@ -7,6 +7,21 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null) {
+    return res.status(401).send("No token registered");
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).send("The token is invalid");
+    req.user = user;
+    next();
+  });
+};
+
 router.get("/", authenticateToken, (req, res) => {
   let select = "SELECT * FROM users WHERE jwt = ?";
   const authHeader = req.headers["authorization"];
@@ -27,18 +42,34 @@ router.get("/", authenticateToken, (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = { username: req.body.name, password: hashedPassword };
+  let findUser = userDB.prepare("SELECT * FROM users WHERE username = ?");
 
-    let insert = "INSERT INTO users (username, password, jwt) VALUES (?,?,?)";
-    userDB.run(insert, [user.username, user.password, ""]);
+  //Change to get
+  findUser.each(
+    req.body.name,
+    (error, row) => {},
+    async (error, row) => {
+      findUser.finalize();
+      console.log(row);
+      if (!row) {
+        try {
+          const hashedPassword = await bcrypt.hash(req.body.password, 10);
+          const user = { username: req.body.name, password: hashedPassword };
 
-    res.status(201).send();
-    console.log(rowData);
-  } catch {
-    res.status(400).send();
-  }
+          let insert =
+            "INSERT INTO users (username, password, jwt) VALUES (?,?,?)";
+          userDB.run(insert, [user.username, user.password, ""]);
+
+          res.status(201).send();
+          console.log(rowData);
+        } catch {
+          res.status(400).send();
+        }
+      } else {
+        res.status(400).send("User already exists");
+      }
+    }
+  );
 });
 
 router.post("/login", async (req, res) => {
@@ -53,21 +84,14 @@ router.post("/login", async (req, res) => {
     req.body.name,
     async (error, row) => {
       rowData.push(row);
-
       const user = rowData.find((user) => user.username === req.body.name);
-
-      if (user === null) {
-        return res.status(400).send("Cannot find user");
-      }
-
       try {
         if (await bcrypt.compare(req.body.password, user.password)) {
           let insert = "UPDATE users SET jwt = ? WHERE username = ?";
           userDB.run(insert, [accessToken, user.username]);
           res.json({ accessToken: accessToken }).send();
-          console.log(rowData);
         } else {
-          res.status(401).send("Wrong password");
+          res.status(401).send("Invalid login");
         }
       } catch {
         res.status(401).send();
@@ -75,6 +99,9 @@ router.post("/login", async (req, res) => {
     },
     (error, row) => {
       findUser.finalize();
+      if (!row) {
+        res.status(400).send("Invalid login");
+      }
     }
   );
 });
@@ -86,20 +113,5 @@ router.delete("/logout", authenticateToken, (req, res) => {
   userDB.run(insert, ["", token]);
   res.status(204).end();
 });
-
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (token == null) {
-    return res.status(401).send("No token registered");
-  }
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(403).send("The token is unvalid");
-    req.user = user;
-    next();
-  });
-}
 
 module.exports = router;
