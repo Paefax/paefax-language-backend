@@ -52,17 +52,17 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
 
 {
-    "name": "test name 5", 
+    "name": "test name", 
     "language": "swedish", 
     "questions": 
     [
         {
-        "question": "banana5",
-        "correctAnswer": "banan5"
+        "question": "banana",
+        "correctAnswer": "banan"
         },
         {
-        "question": "apple5",
-        "correctAnswer": "äpple5"
+        "question": "apple",
+        "correctAnswer": "äpple"
         }
     ]
 }

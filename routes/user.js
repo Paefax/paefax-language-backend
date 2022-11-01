@@ -116,29 +116,32 @@ router.delete("/logout", authenticateToken, (req, res) => {
 
 router.get("/quiz/:userId/:language", authenticateToken, async (req, res) => {
   let userId = req.params.userId;
-  let language = req.params.language;
+  let language = req.params.language.toLowerCase();
 
   let quizzes = [];
 
-  let userQuiz = {
-    id: 0,
-    name: "",
-    language: "",
-    questions: [],
-  };
-
   let select =
-    "SELECT user_quiz.id, name, language, question, correctAnswer FROM user_quiz INNER JOIN user_quiz_question ON user_quiz_question.userQuizId = user_quiz.id WHERE userId = ? AND language = ?";
+    "SELECT user_quiz.id, user_quiz.name, user_quiz.language, JSON_GROUP_ARRAY(JSON_OBJECT('question', user_quiz_question.question, 'correctAnswer', user_quiz_question.correctAnswer)) AS questions FROM user_quiz INNER JOIN user_quiz_question ON user_quiz_question.userQuizId = user_quiz.id WHERE userId = ? AND language = ? GROUP BY user_quiz.id";
 
   userDB.all(select, [userId, language], (error, rows) => {
     if (error) {
-      console.log(error);
+      console.error(error);
       res.status(404).send();
     } else {
       quizzes = rows;
 
-      console.log("All quizzes ", quizzes);
-      res.status(200).json(quizzes);
+      if (quizzes.length === 0) {
+        console.error(
+          "User with id:",
+          userId,
+          "and quiz language:",
+          language,
+          "not found!"
+        );
+        res.status(404).end();
+      } else {
+        res.status(200).json(quizzes);
+      }
     }
   });
 });
