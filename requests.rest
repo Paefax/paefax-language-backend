@@ -1,5 +1,5 @@
 GET http://localhost:3000/user 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDAxMDF9.yBHCe6QEZ_kc9mchUPZibnCwDWbDhjJr2Bs3u6NRzyQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
 
 ###
 
@@ -7,7 +7,7 @@ POST http://localhost:3000/user/create
 Content-Type: application/json
 
 {
-    "name": "Kevin2", "password": "password"
+    "name": "Kevin", "password": "password"
 
 }
 
@@ -17,19 +17,19 @@ POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-    "name": "Kevin2", "password": "password"
+    "name": "Kevin", "password": "password"
 
 }
 
 ###
 GET http://localhost:3000/progress 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDAxMDF9.yBHCe6QEZ_kc9mchUPZibnCwDWbDhjJr2Bs3u6NRzyQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
 
 ###
 
 POST http://localhost:3000/progress/update 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDAxMDF9.yBHCe6QEZ_kc9mchUPZibnCwDWbDhjJr2Bs3u6NRzyQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
 
 {
     "language": "german", "category": "fruit"
@@ -38,18 +38,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDAxM
 ###
 
 GET http://localhost:3000/user/quiz/swedish
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDAxMDF9.yBHCe6QEZ_kc9mchUPZibnCwDWbDhjJr2Bs3u6NRzyQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
 
 ###
 
 GET http://localhost:3000/user/quiz/get/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDAxMDF9.yBHCe6QEZ_kc9mchUPZibnCwDWbDhjJr2Bs3u6NRzyQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
 
 ###
 
 POST http://localhost:3000/user/quiz
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDAxMDF9.yBHCe6QEZ_kc9mchUPZibnCwDWbDhjJr2Bs3u6NRzyQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
 
 {
     "name": "test name", 
