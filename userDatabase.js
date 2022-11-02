@@ -42,7 +42,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     db.run(
       `CREATE TABLE user_quiz_question (
             id INTEGER PRIMARY KEY,
-            question TEXT,
+            word TEXT,
             correctAnswer TEXT,
             userQuizId INTEGER,
             FOREIGN KEY (userQuizId) REFERENCES user_quiz (id)
