@@ -1,5 +1,5 @@
 GET http://localhost:3000/user 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczNzk2NDZ9.vEIgwOFgcIRrwi6DkFxBsTkimXO3VxCATepEl4dvRGY
 
 ###
 
@@ -23,13 +23,13 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/progress 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczNzk2NDZ9.vEIgwOFgcIRrwi6DkFxBsTkimXO3VxCATepEl4dvRGY
 
 ###
 
 POST http://localhost:3000/progress/update 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczNzk2NDZ9.vEIgwOFgcIRrwi6DkFxBsTkimXO3VxCATepEl4dvRGY
 
 {
     "language": "german", "category": "fruit"
@@ -37,23 +37,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0O
 
 ###
 
-GET http://localhost:3000/user/quiz/1/swedish
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
+GET http://localhost:3000/user/quiz/swedish
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczNzk2NDZ9.vEIgwOFgcIRrwi6DkFxBsTkimXO3VxCATepEl4dvRGY
 
 ###
 
 GET http://localhost:3000/user/quiz/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczNzk2NDZ9.vEIgwOFgcIRrwi6DkFxBsTkimXO3VxCATepEl4dvRGY
 
 ###
 
 POST http://localhost:3000/user/quiz
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczMzA0ODJ9.Mn6FxmaCHqVcE2FhrqeRjtIonIFjEGqVWdDNY4D7n3Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjczNzk2NDZ9.vEIgwOFgcIRrwi6DkFxBsTkimXO3VxCATepEl4dvRGY
 
 {
     "name": "test name", 
-    "language": "swedish", 
+    "language": "german", 
     "questions": 
     [
         {

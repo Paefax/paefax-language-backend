@@ -114,34 +114,47 @@ router.delete("/logout", authenticateToken, (req, res) => {
   res.status(204).end();
 });
 
-router.get("/quiz/:userId/:language", authenticateToken, async (req, res) => {
-  let userId = req.params.userId;
-  let language = req.params.language.toLowerCase();
+router.get("/quiz/:language", authenticateToken, async (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const language = req.params.language.toLowerCase();
+  let userId = 0;
 
   let quizzes = [];
 
-  let select =
-    "SELECT user_quiz.id, user_quiz.name, user_quiz.language, JSON_GROUP_ARRAY(JSON_OBJECT('question', user_quiz_question.question, 'correctAnswer', user_quiz_question.correctAnswer)) AS questions FROM user_quiz INNER JOIN user_quiz_question ON user_quiz_question.userQuizId = user_quiz.id WHERE userId = ? AND language = ? GROUP BY user_quiz.id";
+  const selectId = "SELECT id FROM users WHERE jwt = ?";
 
-  userDB.all(select, [userId, language], (error, rows) => {
+  userDB.all(selectId, token, (error, rows) => {
     if (error) {
-      console.error(error);
-      res.status(404).send();
+      console.log(error);
+      res.status(500).end();
     } else {
-      quizzes = rows;
+      userId = rows[0].id;
 
-      if (quizzes.length === 0) {
-        console.error(
-          "User with id:",
-          userId,
-          "and quiz language:",
-          language,
-          "not found!"
-        );
-        res.status(404).end();
-      } else {
-        res.status(200).json(quizzes);
-      }
+      const selectQuiz =
+        "SELECT user_quiz.id, user_quiz.name, user_quiz.language, JSON_GROUP_ARRAY(JSON_OBJECT('question', user_quiz_question.question, 'correctAnswer', user_quiz_question.correctAnswer)) AS questions FROM user_quiz INNER JOIN user_quiz_question ON user_quiz_question.userQuizId = user_quiz.id WHERE userId = ? AND language = ? GROUP BY user_quiz.id";
+
+      userDB.all(selectQuiz, [userId, language], (error, rows) => {
+        if (error) {
+          console.error(error);
+          res.status(404).send();
+        } else {
+          quizzes = rows;
+
+          if (quizzes.length === 0) {
+            console.error(
+              "User with id:",
+              userId,
+              "and quiz language:",
+              language,
+              "not found!"
+            );
+            res.status(404).end();
+          } else {
+            res.status(200).json(quizzes);
+          }
+        }
+      });
     }
   });
 });
