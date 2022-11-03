@@ -1,5 +1,5 @@
 GET http://localhost:3000/user 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjcyOTQ4NzV9.B9w0fi4CoEedYcw9KOiaEi6fPjLBUu8dcOh-qjXaJuE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
 
 ###
 
@@ -17,21 +17,52 @@ POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-    "name": "Helena", "password": "Halldin"
+    "name": "Kevin", "password": "password"
 
 }
 
 ###
 GET http://localhost:3000/progress 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1Mjh9.m0EOH1j5p_Kui3aLyHaxpROuJ80zWpgupcFBsP7hY-M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
 
 ###
 
 POST http://localhost:3000/progress/update 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY2ODg1Mjh9.m0EOH1j5p_Kui3aLyHaxpROuJ80zWpgupcFBsP7hY-M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
 
 {
     "language": "german", "category": "fruit"
+}
 
+###
+
+GET http://localhost:3000/user/quiz/swedish
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
+
+###
+
+GET http://localhost:3000/user/quiz/get/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
+
+###
+
+POST http://localhost:3000/user/quiz
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njc0MDExMTd9.Jb0KekkmjmcwFPUzPAJRZ2_d13sQBpkY28pmleDaOOc
+
+{
+    "name": "test name", 
+    "language": "swedish", 
+    "questions": 
+    [
+        {
+        "word": "banana",
+        "correctAnswer": "banan"
+        },
+        {
+        "word": "apple",
+        "correctAnswer": "äpple"
+        }
+    ]
 }

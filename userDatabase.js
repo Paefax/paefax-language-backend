@@ -21,6 +21,40 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         }
       }
     );
+
+    db.run(
+      `CREATE TABLE user_quiz (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            language TEXT,
+            userId INTEGER,
+            FOREIGN KEY (userId) REFERENCES users (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE        
+            )`,
+      (err) => {
+        if (err) {
+          console.error("User-quiz table already created");
+        }
+      }
+    );
+
+    db.run(
+      `CREATE TABLE user_quiz_question (
+            id INTEGER PRIMARY KEY,
+            word TEXT,
+            correctAnswer TEXT,
+            userQuizId INTEGER,
+            FOREIGN KEY (userQuizId) REFERENCES user_quiz (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE      
+            )`,
+      (err) => {
+        if (err) {
+          console.error("User-quiz-question table already created");
+        }
+      }
+    );
   }
 });
 
