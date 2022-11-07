@@ -130,7 +130,9 @@ router.get("/quiz/:language", authenticateToken, async (req, res) => {
       console.log(error);
       res.status(500).end();
     } else {
-      userId = rows[0].id;
+      if (rows[0] !== undefined) {
+        userId = rows[0].id;
+      }
 
       const selectQuiz =
         "SELECT user_quiz.id, user_quiz.name, user_quiz.language, JSON_GROUP_ARRAY(JSON_OBJECT('word', user_quiz_question.word, 'correctAnswer', user_quiz_question.correctAnswer)) AS questions FROM user_quiz INNER JOIN user_quiz_question ON user_quiz_question.userQuizId = user_quiz.id WHERE userId = ? AND language = ? GROUP BY user_quiz.id";
