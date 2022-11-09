@@ -17,12 +17,20 @@ router.get("/", authenticateToken, (req, res) => {
       console.log(error);
       res.status(500).send();
     }
+
     rows.forEach((row) => {
       userId.push(row);
     });
+
     let select =
       "SELECT language,category,progress FROM progress WHERE userId=?";
-    let params = [userId[0].id];
+
+    let params = [];
+
+    if (userId[0] !== undefined) {
+      params = [userId[0].id];
+    }
+
     const rowData = [];
     progressDB.all(select, params, (error, rows) => {
       if (error) {
@@ -116,7 +124,7 @@ function authenticateToken(req, res, next) {
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(403).send("The token is unvalid");
+    if (err) return res.status(403).send("The token is invalid");
     req.user = user;
     next();
   });
