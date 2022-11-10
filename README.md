@@ -17,6 +17,14 @@ We use Trello, a Scrum master and development team, with our teacher Kevin as ou
 https://github.com/Paefax/paefax-language-backend.git
 ```
 
+### .env file change
+
+Change `<GENERATE PRIVATE KEY>` to a generated private key from [AuthO](https://auth0.com/)
+
+```sh
+ACCESS_TOKEN_SECRET=<GENERATE PRIVATE KEY>
+```
+
 ### Install dependencies in local repository
 
 ```sh
